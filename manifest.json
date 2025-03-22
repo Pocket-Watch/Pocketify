@@ -14,6 +14,8 @@
     }
   ],
   "web_accessible_resources": [
+    "player/pocket_player.js",
+    "player/pocket_player.css",
     "player/pocket_player.svg"
   ],
   "browser_action": {
