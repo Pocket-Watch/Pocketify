@@ -1,5 +1,9 @@
+
+<img src="icons/pocketify.png" alt="drawing" width="200"/>
+
 # Pocketify
 A browser MV2 extension that either overlays a bare html video element or replaces the existing player with the pocket player.
+
 
 ## Loading extensions for testing in Firefox
 1. Navigate to `about:addons`
