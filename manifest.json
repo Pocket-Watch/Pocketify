@@ -7,11 +7,6 @@
   "icons": {
     "240": "icons/pocketify.png"
   },
-  "background": {
-    "scripts": [
-      "background.js"
-    ]
-  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
