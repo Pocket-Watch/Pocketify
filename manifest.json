@@ -13,6 +13,9 @@
       "js": ["content.js"]
     }
   ],
+  "web_accessible_resources": [
+    "player/pocket_player.js"
+  ],
   "browser_action": {
     "default_popup": "pocketify.html",
     "default_icon": "icons/pocketify.png"
