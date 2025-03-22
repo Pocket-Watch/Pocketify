@@ -10,7 +10,6 @@ const insertButton = document.getElementById("insert");
 insertButton.addEventListener("click", _ => {
     browser.tabs.query({active: true, currentWindow: true}, function (tabs) {
         let activeTab = tabs[0];
-        console.debug("Sending info to background tab", activeTab);
         browser.tabs.sendMessage(activeTab.id, {type: INSERT_COMMAND});
     })
 })

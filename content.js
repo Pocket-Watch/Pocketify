@@ -18,19 +18,54 @@ function findCandidates() {
     return document.getElementsByTagName("video");
 }
 
+const POCKET_PLAYER_JS = "/pocket_player.js";
+const POCKET_PLAYER_CSS = "/pocket_player.css";
+const POCKET_PLAYER_SVG = "/pocket_player.svg";
+let playerModule = null;
+let PLAYER_DIR = browser.runtime.getURL("player");
+
+logInfo("PLAYER_DIR", PLAYER_DIR)
+
+// Checks if player css is loaded in the current active tab
+function isPlayerCssLoaded(head) {
+    let links = head.getElementsByTagName("link");
+    for (let link of links) {
+        if (link.href.endsWith(POCKET_PLAYER_CSS)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 async function insertPlayer() {
     let videos = findCandidates();
     logInfo("Found", videos.length, "candidates")
-    let resourceURL = browser.runtime.getURL("/player/pocket_player.js");
-    let mod = await import(resourceURL);
+
+    let head = document.getElementsByTagName("head")[0];
+    if(!isPlayerCssLoaded(head)) {
+        logInfo("Loading player css")
+        let css = document.createElement("link");
+        css.rel = "stylesheet";
+        css.href = PLAYER_DIR + POCKET_PLAYER_CSS;
+
+        head.appendChild(css)
+    }
+
+    if (!playerModule) {
+        logInfo("Loading player js")
+        playerModule = await import(PLAYER_DIR + POCKET_PLAYER_JS);
+    }
+
     for (let video of videos) {
         console.info(video)
-        let options = new mod.Options();
+        let options = new playerModule.Options();
         options.hideNextButton = true;
         options.hideSpeedButton = true;
         options.hideSubtitlesButton = true;
         options.inactivityTime = 1500;
-        let player = new mod.Player(video, options);
+        options.hideTimestamps = true;
+        options.iconsPath = PLAYER_DIR + POCKET_PLAYER_SVG;
+        let player = new playerModule.Player(video, options);
     }
 }
 
