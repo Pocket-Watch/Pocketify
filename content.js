@@ -57,6 +57,10 @@ async function insertPlayer() {
     }
 
     for (let video of videos) {
+        if (video.injected) {
+            console.info("Skipping ", video)
+            continue;
+        }
         console.info(video)
         let options = new playerModule.Options();
         options.hideNextButton = true;
@@ -66,6 +70,8 @@ async function insertPlayer() {
         options.hideTimestamps = true;
         options.iconsPath = PLAYER_DIR + POCKET_PLAYER_SVG;
         let player = new playerModule.Player(video, options);
+        // Marker to prevent re-attaching
+        video.injected = true;
     }
 }
 
